@@ -1,0 +1,67 @@
+package com.naruto.mapper;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.apache.ibatis.jdbc.SQL;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
+
+import com.naruto.dao.BaseMapper;
+
+/**
+ * @author hhp
+ * @mail 1228929031@qq.com
+ * @date 2018年4月6日
+ */
+@RunWith(SpringRunner.class)
+@SpringBootTest
+public class BasicMapperTest {
+
+	@Autowired
+	private BaseMapper basicMapper;
+
+	@Test
+	public void testFetch() {
+		SQL s = new SQL();
+		s.SELECT("name").FROM("school").WHERE("id>#{id}", "name like #{name} ");
+		s.AND().WHERE("adduser=#{adduser}");
+		String sql = s.toString();
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put(BaseMapper.SQLFIELD, sql);
+		paramMap.put("id", 1);
+		paramMap.put("name", "%中学%");
+		paramMap.put("adduser", "admin");
+		List<Map<String, Object>> fetch = basicMapper.fetch(paramMap);
+		System.out.println(fetch);
+
+	}
+
+	@Test
+	public void testExecuteLong() {
+		String sql = "select count(1) from school ";
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put(BaseMapper.SQLFIELD, sql);
+		long count = basicMapper.executeLong(paramMap);
+		System.out.println(count);
+
+	}
+
+	@Test
+	public void testExecuteString() {
+		SQL s = new SQL();
+		s.SELECT("name").FROM("school").WHERE("id=#{id}");
+		String sql = s.toString();
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put(BaseMapper.SQLFIELD, sql);
+		paramMap.put("id", 2);
+		String name = basicMapper.executeString(paramMap);
+		System.out.println(name);
+
+	}
+
+}
