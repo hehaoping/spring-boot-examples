@@ -16,25 +16,17 @@ public interface BaseMapper {
 
 	public static final String SQLFIELD = "sqlField";
 
-	@SelectProvider(type = BaseSqlProvider.class, method = "fetch")
+	@SelectProvider(type = BaseSqlProvider.class, method = "getSQL")
 	public List<Map<String, Object>> fetch(Map<String, Object> paramMap);
 
-	@SelectProvider(type = BaseSqlProvider.class, method = "executeString")
+	@SelectProvider(type = BaseSqlProvider.class, method = "getSQL")
 	public String executeString(Map<String, Object> paramMap);
 
-	@SelectProvider(type = BaseSqlProvider.class, method = "executeLong")
+	@SelectProvider(type = BaseSqlProvider.class, method = "getSQL")
 	public long executeLong(Map<String, Object> paramMap);
 
 	class BaseSqlProvider {
-		public String fetch(Map<String, Object> paramMap) {
-			return paramMap.get(SQLFIELD).toString();
-		}
-
-		public String executeString(Map<String, Object> paramMap) {
-			return paramMap.get(SQLFIELD).toString();
-		}
-
-		public String executeLong(Map<String, Object> paramMap) {
+		public String getSQL(Map<String, Object> paramMap) {
 			return paramMap.get(SQLFIELD).toString();
 		}
 	}
