@@ -6,6 +6,8 @@ import java.util.Map;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.SelectProvider;
 
+import com.github.pagehelper.Page;
+
 /**
  * @author hhp
  * @mail 1228929031@qq.com
@@ -18,6 +20,9 @@ public interface BaseMapper {
 
 	@SelectProvider(type = BaseSqlProvider.class, method = "getSQL")
 	public List<Map<String, Object>> fetch(Map<String, Object> paramMap);
+
+	@SelectProvider(type = BaseSqlProvider.class, method = "getSQL")
+	public Page<Map<String, Object>> fetchPage(Map<String, Object> paramMap);
 
 	@SelectProvider(type = BaseSqlProvider.class, method = "getSQL")
 	public String executeString(Map<String, Object> paramMap);

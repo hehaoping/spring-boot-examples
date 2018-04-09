@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import com.naruto.dao.BaseMapper;
 
 /**
@@ -62,6 +64,21 @@ public class BasicMapperTest {
 		String name = basicMapper.executeString(paramMap);
 		System.out.println(name);
 
+	}
+
+	@Test
+	public void testPageFetch() {
+		SQL s = new SQL();
+		s.SELECT("*").FROM("school");
+		String sql = s.toString();
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put(BaseMapper.SQLFIELD, sql);
+		PageHelper.startPage(1, 2);// 从第一页开始，每页2条数据
+		Page<Map<String, Object>> pageResult = basicMapper.fetchPage(paramMap);
+		System.out.println("Total----" + pageResult.getTotal());
+		for (Map<String, Object> map : pageResult) {
+			System.out.println(map);
+		}
 	}
 
 }

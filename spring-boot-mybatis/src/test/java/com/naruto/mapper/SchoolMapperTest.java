@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import com.github.pagehelper.PageHelper;
 import com.naruto.dao.SchoolMapper;
 import com.naruto.entity.SchoolEntity;
 
@@ -40,34 +41,42 @@ public class SchoolMapperTest {
 			System.out.println("结果：" + res);
 		}
 	}
-	
+
 	@Test
 	public void testDelete() {
 		schoolMapper.delete(5);
 	}
-	
+
 	@Test
-	public void testUpdate(){
-		SchoolEntity schoolEntity=new SchoolEntity();
+	public void testUpdate() {
+		SchoolEntity schoolEntity = new SchoolEntity();
 		schoolEntity.setId(4);
 		schoolEntity.setName("xxx大学");
 		schoolMapper.update(schoolEntity);
 	}
-	
+
 	@Test
-	public void testfind(){
-		List<Map<String,Object>> find = schoolMapper.findSchoolTeacher(1);
+	public void testfind() {
+		List<Map<String, Object>> find = schoolMapper.findSchoolTeacher(1);
 		for (Map<String, Object> map : find) {
-			System.out.println(map.get("id")+":"+map.get("name")+":"+map.get("addTime")+" tid:"+map.get("tID")+"tname:"+map.get("tname"));
-			
+			System.out.println(map.get("id") + ":" + map.get("name") + ":" + map.get("addTime") + " tid:" + map.get("tID") + "tname:"
+					+ map.get("tname"));
+
 		}
 	}
-	
+
 	@Test
-	public void testExecuteString(){
+	public void testExecuteString() {
 		String name = schoolMapper.executeString(2);
 		System.out.println(name);
-		
+
+	}
+
+	@Test
+	public void testPageExecute() {
+		PageHelper.startPage(2, 2);
+		List<SchoolEntity> pageResult = schoolMapper.getAll();
+		System.out.println(pageResult);
 	}
 
 }
