@@ -19,7 +19,7 @@ public class ConsumerBean {
 	@Value("${my.kafka.topic}")
 	private String kafkaTopic;
 
-	//简单单一消费
+	// 简单单一消费
 	// @KafkaListener(topics="${my.kafka.topic}")
 	// public void receive(ConsumerRecord<?, ?> cr){
 	// String topic = cr.topic();
@@ -29,25 +29,19 @@ public class ConsumerBean {
 	// System.out.println("topic:"+topic+" key:"+key+" value:"+value);
 	// }
 
-	
-	//批量消费
+	// 批量消费
 	@KafkaListener(topics = "${my.kafka.topic}", containerFactory = "batchContainerFactory")
-	public void listen(List<ConsumerRecord<?, ?>> crList,Acknowledgment ack) {
-		try {
-			Thread.sleep(2000);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
+	public void listen(List<ConsumerRecord<?, ?>> crList, Acknowledgment ack) {
 		System.out.println("records.size: " + crList.size() + " in all");
 		for (ConsumerRecord<?, ?> cr : crList) {
 			String topic = cr.topic();
-			String key = cr.key().toString();
+			String key = cr.key() == null ? "null" : cr.key().toString();
 			String value = cr.value().toString();
 			System.out.println("topic:" + topic + " key:" + key + " value:" + value);
 		}
-		 System.out.println("start commit offset");
-		 ack.acknowledge();//手动提交偏移量
-		 System.out.println("stop commit offset");
+		System.out.println("start commit offset");
+		ack.acknowledge();// 手动提交偏移量
+		System.out.println("stop commit offset");
 	}
 
 }
