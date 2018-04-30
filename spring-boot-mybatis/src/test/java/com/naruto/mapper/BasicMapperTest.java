@@ -81,4 +81,25 @@ public class BasicMapperTest {
 		}
 	}
 
+	@Test
+	public void testUpdate() {
+		String sql = "update  school set name=#{name} where id=#{id} ";
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put(BaseMapper.SQLFIELD, sql);
+		paramMap.put("id", 5);
+		paramMap.put("name", "cs小学");
+		long updateCount = basicMapper.executeUpdate(paramMap);
+		System.out.println(updateCount);
+	}
+
+	@Test
+	public void testDelete() {
+		String sql = "delete from  school where id=#{id} ";
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put(BaseMapper.SQLFIELD, sql);
+		paramMap.put("id", 5);
+		long deleteCount = basicMapper.executeDelete(paramMap);
+		System.out.println(deleteCount);
+	}
+
 }

@@ -11,8 +11,13 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import com.github.pagehelper.PageHelper;
+import com.naruto.dao.SchoolCommonMapper;
 import com.naruto.dao.SchoolMapper;
+import com.naruto.entity.School;
 import com.naruto.entity.SchoolEntity;
+
+import tk.mybatis.mapper.entity.Example;
+import tk.mybatis.mapper.entity.Example.Criteria;
 
 /**
  * @author hhp
@@ -77,6 +82,54 @@ public class SchoolMapperTest {
 		PageHelper.startPage(2, 2);
 		List<SchoolEntity> pageResult = schoolMapper.getAll();
 		System.out.println(pageResult);
+	}
+
+	@Autowired
+	private SchoolCommonMapper schoolCommonMapper;
+
+	@Test
+	public void testCommonMapperAdd() {
+		School school = new School();
+		school.setId(6);
+		school.setName("sdfsdf");
+		school.setAdduser("system");
+		school.setAddtime(new Date());
+		int insert = schoolCommonMapper.insert(school);
+		System.out.println(insert);
+	}
+
+	@Test
+	public void testCommonMapperDel() {
+		School school = new School();
+		school.setId(6);
+		// int delete = schoolCommonMapper.delete(school);
+		int delete = schoolCommonMapper.deleteByPrimaryKey(7L);
+		System.out.println(delete);
+	}
+
+	@Test
+	public void testCommonMapperUpdate() {
+		School s = new School();
+		s.setId(7);
+		s.setCode("code");
+		int update = schoolCommonMapper.updateByPrimaryKeySelective(s);// 根据主键 更新指定字段
+		System.out.println(update);
+	}
+
+	@Test
+	public void testCommonMapperSelect() {
+		List<School> listAll = schoolCommonMapper.selectAll();
+		System.out.println(listAll);
+
+		School s = schoolCommonMapper.selectByPrimaryKey(2L);
+		System.out.println(s);
+
+		Example example = new Example(School.class);
+		Criteria c = example.createCriteria();
+		c.andLike("name", "%学%");
+		c.andEqualTo("adduser", "admin");
+		List<School> selectByExample = schoolCommonMapper.selectByExample(example);
+		System.out.println(selectByExample);
 	}
 
 }
