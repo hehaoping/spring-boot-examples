@@ -23,7 +23,7 @@ public class School implements Serializable {
 
 	private String code;
 
-	private String memo;
+	private String memo = "memo";// 默认值可以通过直接赋值的方式
 
 	private String prop1;
 
