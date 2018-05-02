@@ -12,6 +12,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import springfox.documentation.annotations.ApiIgnore;
 
 /**
  * @author hhp
@@ -42,8 +43,10 @@ public class RESTfulController {
 	}
 
 	@ApiOperation(value = "创建用户", notes = "根据map键值对创建用户")
+	@ApiImplicitParams({ @ApiImplicitParam(name = "name", paramType = "form", value = "姓名", required = true, dataType = "String"),
+			@ApiImplicitParam(name = "age", paramType = "form", value = "年龄", required = false, dataType = "int") })
 	@RequestMapping(value = "/users", method = RequestMethod.POST)
-	public String postUser(@RequestParam Map<String, Object> map) {
+	public String postUser(@RequestParam @ApiIgnore Map<String, Object> map) {
 		// 除了@RequestParam从页面中传递参数之外，还可以通过@ModelAttribute绑定参数
 		System.out.println(map);
 		return "post请求,创建一个用户";
