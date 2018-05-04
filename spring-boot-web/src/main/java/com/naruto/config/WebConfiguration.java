@@ -6,11 +6,13 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
+import org.springframework.boot.web.servlet.ServletListenerRegistrationBean;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import com.naruto.filter.FilterTest;
+import com.naruto.listener.ListenerTest;
 import com.naruto.servlet.ServletTest;
 
 /**
@@ -49,6 +51,11 @@ public class WebConfiguration {
 		initParameters.put("excludedURL", ".js,.css,.jpg,.png");// 排除js、css、图片等资源
 		bean.setInitParameters(initParameters);
 		return bean;
+	}
+
+	@Bean
+	public ServletListenerRegistrationBean<ListenerTest> registServletListenerBean() {
+		return new ServletListenerRegistrationBean<ListenerTest>(new ListenerTest());
 	}
 
 }
