@@ -32,6 +32,12 @@
 			<optional>true</optional>
 			<scope>true</scope>
 		</dependency>
+		
+		<!-- 添加aop相关依赖 -->
+		<dependency>
+		    <groupId>org.springframework.boot</groupId>
+		    <artifactId>spring-boot-starter-aop</artifactId>
+		</dependency>
 
 	</dependencies>
 
